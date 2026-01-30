@@ -38,12 +38,16 @@
 </head>
 <body id="bg">
 
-    <h1 id="ques">Will you sleep by my side tonight?<br>(Without the 70cm gap)</h1>
+   <h1 id="ques">Will you sleep by my side tonight?<br>(Without the 70cm gap)</h1>
 
-    <div class="btn-container" id="main-area">
-        <button id="yesBtn">YES</button>
-        <button id="noBtn">NO</button>
-    </div>
+<div id="static-gif">
+    <img src="ang.gif.gif" style="max-width: 150px; margin-bottom: 20px; border: none; box-shadow: none;">
+</div>
+
+<div class="btn-container" id="main-area">
+    <button id="yesBtn">YES</button>
+    <button id="noBtn">NO</button>
+</div>
 
     <div id="res"></div>
 
@@ -75,6 +79,7 @@
         yesBtn.addEventListener('click', () => {
             ques.innerHTML = "YAY! SEE YOU SOON! 💋";
             res.innerHTML = '<img src="myhug.gif.gif" alt="Love GIF">';
+            document.getElementById('static-gif').style.display = 'none';
             noBtn.style.display = 'none';
             yesBtn.style.display = 'none';
             bg.style.backgroundColor = '#FFB6C1';
