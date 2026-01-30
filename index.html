@@ -73,12 +73,15 @@
 
         // وظيفة تحريك زر الـ NO
         function moveNo() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-            
+    const maxX = window.innerWidth - noBtn.offsetWidth - 50;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+
+    const x = Math.floor(Math.random() * Math.max(0, maxX)) + 25;
+    const y = Math.floor(Math.random() * Math.max(0, maxY)) + 25;
+
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+}
             // تغيير لون الخلفية بين الوردي والأبيض
             bg.style.backgroundColor = (bg.style.backgroundColor === 'rgb(255, 192, 203)' || bg.style.backgroundColor === 'pink') ? 'white' : '#FFC0CB';
         }
