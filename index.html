@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>One Question 🐱</title>
+<style>
+body {
+  background: linear-gradient(#ffdde1, #ee9ca7);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.box {
+  background: white;
+  padding: 40px;
+  border-radius: 25px;
+  text-align: center;
+  position: relative;
+  width: 320px;
+}
+
+h1 {
+  color: #ff6f91;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+#yes {
+  background: #ff6f91;
+  color: white;
+}
+
+#no {
+  background: #ddd;
+  position: absolute;
+}
+
+img {
+  width: 140px;
+  margin-bottom: 15px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg">
+  <h1>Will you be mine? 🐾</h1>
+
+  <button id="yes" onclick="alert('I knew it 😭🤍')">
+    YES
+  </button>
+
+  <button id="no">
+    NO
+  </button>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+
+noBtn.addEventListener("mouseover", () => {
+  const box = document.querySelector(".box");
+  const maxX = box.clientWidth - noBtn.clientWidth;
+  const maxY = box.clientHeight - noBtn.clientHeight;
+
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
+});
+</script>
+
+</body>
+</html>
