@@ -1,4 +1,123 @@
-<h1 id="question">Will you sleep by my side tonight? <br> (Without the 70cm gap)</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question for You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Press Start 2P', cursive; /* Apply pixel font */
+            transition: background-color 0.3s ease-in-out; /* Smooth background transition */
+            background-color: #FFFFFF; /* Default background */
+            background-image: radial-gradient(circle, #000000 1px, transparent 1px);
+            background-size: 20px 20px; /* Subtle dot pattern */
+            overflow: hidden; /* Hide scrollbars if content moves outside */
+            text-align: center;
+            color: #333; /* Darker text for contrast */
+        }
+
+        h1 {
+            font-size: clamp(14px, 4vw, 22px); /* Responsive font size */
+            line-height: 1.6;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .buttons-container {
+            position: relative;
+            width: 90%; /* Adjust width for smaller screens */
+            max-width: 400px; /* Max width for larger screens */
+            height: 150px; /* Space for buttons to move */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-family: 'Press Start 2P', cursive;
+            border: 3px solid #000;
+            border-radius: 5px; /* Slightly rounded corners */
+            cursor: pointer;
+            font-size: clamp(12px, 3vw, 16px);
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0px 0px #000; /* Pixel-art style shadow */
+            transition: all 0.1s ease;
+        }
+
+        button:active {
+            box-shadow: 1px 1px 0px 0px #000;
+            transform: translate(3px, 3px);
+        }
+
+        #yesBtn {
+            background-color: #ff4d4d; /* Red for Yes */
+            color: white;
+            margin-right: 20px; /* Space between buttons */
+            position: absolute; /* Allow specific positioning */
+            left: 50%;
+            transform: translateX(-100%); /* Center 'Yes' button */
+        }
+
+        #noBtn {
+            background-color: #fff; /* White for No */
+            color: #333;
+            position: absolute; /* Crucial for movement */
+            transition: all 0.05s ease-out; /* Fast transition for 'no' button */
+            left: 50%;
+            transform: translateX(0%); /* Initial position for 'No' button */
+        }
+
+        #response-area {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #response-area img {
+            max-width: 280px; /* Max width for GIF */
+            height: auto;
+            border: 5px solid #ff4d4d; /* Border for GIF */
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 8px 8px 0px 0px #ff4d4d; /* Stronger shadow for GIF */
+        }
+
+        #response-text {
+            font-size: clamp(14px, 5vw, 24px);
+            color: #ff4d4d;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .buttons-container {
+                height: 200px; /* More vertical space for buttons on small screens */
+            }
+            #yesBtn {
+                left: 50%;
+                transform: translateX(-50%) translateY(-50px); /* Stack buttons vertically */
+            }
+            #noBtn {
+                left: 50%;
+                transform: translateX(-50%) translateY(50px);
+            }
+        }
+    </style>
+</head>
+<body id="bg">
+
+    <h1 id="question">Will you sleep by my side tonight? <br> (Without the 70cm gap)</h1>
     
     <div class="buttons-container">
         <button id="yesBtn" onclick="celebrate()">Yes</button>
