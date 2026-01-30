@@ -81,11 +81,9 @@
 
     noBtn.style.left = x + 'px';
     noBtn.style.top = y + 'px';
-}
-            // تغيير لون الخلفية بين الوردي والأبيض
-            bg.style.backgroundColor = (bg.style.backgroundColor === 'rgb(255, 192, 203)' || bg.style.backgroundColor === 'pink') ? 'white' : '#FFC0CB';
+            
+bg.style.backgroundColor = (bg.style.backgroundColor === 'white' || bg.style.backgroundColor === '') ? '#FFC0CB' : 'white';
         }
-
         // تفعيل التحريك عند اللمس أو مرور الماوس
         noBtn.addEventListener('mouseover', moveNo);
         noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNo(); });
