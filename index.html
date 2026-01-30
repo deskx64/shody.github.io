@@ -1,109 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <!-- Make sure the site is mobile-friendly -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Will You Be My Valentine?</title>
-  <style>
-    /* Set font to Times New Roman and basic styling */
-    body {
-      font-family: "Times New Roman", serif;
-      text-align: center;
-      background-color: #fff0f6;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      margin-top: 50px;
-      font-size: 2rem;
-    }
-    .button-container {
-      margin-top: 30px;
-    }
-    button {
-      font-size: 1.2rem;
-      margin: 10px;
-      padding: 10px 20px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: #ff69b4;
-      color: white;
-    }
-    /* Hide the result section by default */
-    #result {
-      display: none;
-    }
-    /* Dog Animation Container */
-    .dog-container {
-      margin-top: 20px;
-      position: relative;
-      height: 200px;
-      overflow: hidden;
-    }
-    .dog {
-      position: absolute;
-      bottom: 0;
-      width: 100px;
-      animation: run 5s linear infinite;
-    }
-    @keyframes run {
-      0% {
-        left: -120px;
-      }
-      50% {
-        left: calc(50% - 50px);
-        transform: scale(1.1);
-      }
-      100% {
-        left: 100%;
-      }
-    }
-    /* Media queries for smaller screens (like iPhones) */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 1.5rem;
-      }
-      button {
-        font-size: 1rem;
-        padding: 8px 16px;
-      }
-      .dog {
-        width: 80px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #ffdde1;
+            color: #d10056;
+            overflow: hidden;
+        }
+        #container {
+            position: relative;
+            margin-top: 50px;
+        }
+        img {
+            width: 60%;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        #buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            position: relative;
+        }
+        #yesBtn {
+            background-color: #ff4081;
+            color: white;
+        }
+        #noBtn {
+            background-color: #cccccc;
+        }
+        #lyrics {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        #finalMessage {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <!-- Question Section -->
-  <h1>Will you be my Valentine?</h1>
-  <div class="button-container">
-    <button id="yes">Yes</button>
-    <button id="no">No</button>
-  </div>
 
-  <!-- Result Section (hidden until a button is clicked) -->
-  <div id="result">
-    <h1>Congratulations, you have secured yourself a date with Sudipta!</h1>
-    <div class="dog-container">
-      <!-- Cute dog animation (feel free to swap the URL with your favorite animated dog GIF) -->
-      <img src="https://media.giphy.com/media/10dU7AN7xsi1I4/giphy.gif" alt="Cute Dog Animation" class="dog">
+    <script>
+        const password = "marwanisthebest";
+        let userInput = prompt("Enter the secret password to access:");
+        if (userInput !== password) {
+            document.body.innerHTML = "<h1>Access Denied ❌</h1>";
+            throw new Error("Access Denied");
+        }
+    </script>
+
+    <div id="container">
+        <h1>Will you be my Valentine? 💖</h1>
+        <img src="first-image.jpg" id="mainImage">
+        <div id="buttons">
+            <button id="yesBtn" onclick="acceptLove()">Yes 💕</button>
+            <button id="noBtn" onmousemove="avoidNo()">No 😢</button>
+        </div>
     </div>
-  </div>
 
-  <script>
-    // When either button is clicked, hide the question and show the result.
-    document.getElementById("yes").addEventListener("click", showResult);
-    document.getElementById("no").addEventListener("click", showResult);
+    <div id="finalMessage">
+        <h1>LETS GO FROM GETTING REJECTED TO BEING UR VALENTINE I LOVE YOU 💖</h1>
+        <img src="second-image.jpg">
+    </div>
 
-    function showResult() {
-      // Hide the question and buttons.
-      document.querySelector("h1").style.display = "none";
-      document.querySelector(".button-container").style.display = "none";
-      // Show the result section.
-      document.getElementById("result").style.display = "block";
-    }
-  </script>
+    <audio autoplay loop>
+        <source src="romantic-killer.mp3" type="audio/mp3">
+    </audio>
+
+    <div id="lyrics">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/7s5VQqrjBtrBgZL4pEa46S?utm_source=generator" width="300" height="80" frameBorder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+
+    <script>
+        function acceptLove() {
+            document.getElementById('container').style.display = 'none';
+            document.getElementById('finalMessage').style.display = 'block';
+        }
+
+        function avoidNo() {
+            let noBtn = document.getElementById("noBtn");
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
+            noBtn.style.position = "absolute";
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        }
+    </script>
+
 </body>
 </html>
