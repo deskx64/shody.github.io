@@ -130,18 +130,41 @@ function loadLevel(lvl) {
     // 2. تصفير لون الخلفية
     document.getElementById('bg').style.backgroundColor = 'white';
 
-    // 3. مسح أي شيء انضاف في منطقة النتيجة
-    document.getElementById('res').innerHTML = ""; 
+    // 3. تنظيف منطقة النتيجة (res)
+    const resArea = document.getElementById('res');
+    resArea.innerHTML = ""; 
 
     // 4. إرجاع السؤال الأصلي
     document.getElementById('ques').innerHTML = "miss me ?";
 
-    // 5. إظهار القيف الأصلي (بإستخدام الـ ID)
+    // 5. إظهار القيف الأصلي
     document.getElementById('static-gif').style.display = 'block';
 
-    // 6. إظهار حاوية الأزرار (بإستخدام الـ ID مباشرة)
-    // جربنا flex وما ضبط؟ نجرب block عشان نضمن الظهور
+    // 6. الحل النهائي للأزرار: إعادة بناء الـ HTML حق الأزرار داخل الحاوية
+    // هذا السطر يمسح أي خراب صار في الأزرار ويرجعهم جدد
+    document.getElementById('main-area').innerHTML = `
+        <button id="yesBtn" class="button" style="position: absolute; left: 35%; top: 50%; transform: translate(-50%, -50%); z-index: 100;">YES</button>
+        <button id="noBtn" class="button" style="position: absolute; left: 65%; top: 50%; transform: translate(-50%, -50%); z-index: 100; transition: 0.1s;">NO</button>
+    `;
+
+    // 7. التأكد أن الحاوية نفسها ظاهرة
     document.getElementById('main-area').style.display = 'block';
+
+    // 8. إعادة ربط الأكواد بالأزرار الجديدة (عشان يرجع الـ NO يهرب والـ YES يشتغل)
+    // لازم نكرر هذي الأسطر لأننا حذفنا الأزرار القديمة ورجعناها
+    const newNoBtn = document.getElementById('noBtn');
+    const newYesBtn = document.getElementById('yesBtn');
+    
+    newNoBtn.addEventListener('mouseover', moveNo);
+    newNoBtn.addEventListener('touchstart', moveNo);
+    newYesBtn.addEventListener('click', () => {
+        // حط هنا نفس الكلام اللي يطلع لك لما تضغط YES
+        // مثال:
+        document.getElementById('ques').innerHTML = "I knew it !!";
+        document.getElementById('static-gif').style.display = 'none';
+        document.getElementById('main-area').style.display = 'none';
+        document.getElementById('res').innerHTML = "<h1>seba! <3</h1>";
+    });
 }
         // وظيفة تحريك زر الـ NO
         function moveNo() {
