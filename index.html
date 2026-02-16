@@ -196,19 +196,38 @@ function nextQuestion() {
 
 function moveRosan() {
     const rBtn = document.getElementById('rosanBtn');
+    const kBtn = document.getElementById('karkBtn');
     rosanClicks++;
-    rBtn.style.position = "relative";
+    
+    rBtn.style.position = "absolute"; // تحويله لـ absolute عشان يتحرك بحرية
+
     if (rosanClicks === 1) {
-        rBtn.style.transition = "all 1s ease";
-        rBtn.style.left = "100px";
+        rBtn.style.transition = "all 0.5s ease";
+        rBtn.style.left = "150px";
     } else if (rosanClicks === 2) {
-        rBtn.style.left = "250px";
-    } else if (rosanClicks === 3) {
-        rBtn.style.transition = "all 0.2s ease";
-        rBtn.style.left = "-300px";
-        setTimeout(() => rBtn.style.left = "0px", 300);
+        rBtn.style.left = "-150px";
     } else {
-        moveElement(rBtn);
+        // تأثير القلتش النهائي: يلاحق زر كركوفيا ولا يوقف
+        rBtn.style.transition = "all 0.1s linear"; // سرعة جنونية
+        
+        const glitchInterval = setInterval(() => {
+            if (currentStep !== 3) { 
+                clearInterval(glitchInterval); // يوقف القلتش إذا انتقلنا للسؤال التالي
+                return;
+            }
+
+            // حساب موقع زر كركوفيا
+            const kRect = kBtn.getBoundingClientRect();
+            
+            // يروح لزر كركوفيا ويرجع بعيد عنه بمسافة عشوائية (تأثير الهزه)
+            const randomX = (Math.random() - 0.5) * 40; 
+            const randomY = (Math.random() - 0.5) * 40;
+
+            rBtn.style.position = 'fixed';
+            rBtn.style.left = (kRect.left + randomX) + 'px';
+            rBtn.style.top = (kRect.top + randomY) + 'px';
+            
+        }, 50); // يتحدث كل 50 ملي ثانية
     }
 }
 
