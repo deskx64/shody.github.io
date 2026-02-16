@@ -66,6 +66,19 @@
     box-shadow: 2px 2px 0px #000 !important;
     z-index: 2000;
 }
+        .next-btn {
+    background-color: #4CAF50; /* لون أخضر بكسل */
+    color: white;
+    padding: 10px 20px;
+    border: 4px solid #000;
+    font-family: 'pixel-font', sans-serif;
+    cursor: pointer;
+    margin-top: 20px;
+    display: none; /* مخفي في البداية */
+}
+.next-btn:active {
+    transform: translateY(4px);
+}
     </style>
 </head>
 <body id="bg">
@@ -94,8 +107,8 @@
     <button id="noBtn" class="button">NO</button>
 </div>
         </div>
-        <div id="res"></div>
-    </div>
+        <div id="res">/div>
+<button id="nextBtn" class="next-btn" onclick="nextQuestion()">[ NEXT ]</button>
 </div>
     <script>
         const noBtn = document.getElementById('noBtn');
@@ -123,34 +136,111 @@ function loadLevel(lvl) {
         alert("Level " + lvl + " is still EMPTY! 👾");
     }
 }
-      // 1. دالة العودة للمنيو (إصلاح تداخل الأزرار)
-function backToMenu() {
-    // التنقل بين الشاشات
-    document.getElementById('main-content').style.display = 'none';
-    document.getElementById('menu-screen').style.display = 'block';
-    
-    // تصفير الحالة
-    document.getElementById('bg').style.backgroundColor = 'white';
-    document.getElementById('res').innerHTML = ""; 
-    document.getElementById('ques').innerHTML = "miss me ?";
+  // --- منطق الأسئلة والحركات ---
+let currentStep = 1;
+let rosanClicks = 0;
+
+// 1. ربط الأزرار الأساسية عند الضغط
+yesBtn.onclick = () => handleYesAction();
+noBtn.onmouseover = () => moveElement(noBtn);
+
+function handleYesAction() {
+    // إخفاء السؤال والأزرار والقيف الحالي
+    ques.style.display = 'none';
+    document.getElementById('main-area').style.display = 'none';
+    document.getElementById('static-gif').style.display = 'none';
+
+    // عرض النتيجة حسب المرحلة
+    if (currentStep === 1) {
+        res.innerHTML = "<h3>YAY! Answer 1 confirmed! 💋</h3><img src='happy-gif1.gif' style='max-width:200px;'>";
+    } else if (currentStep === 2) {
+        res.innerHTML = "<h3>I knew it! ❤️</h3><img src='happy-gif2.gif' style='max-width:200px;'>";
+    } else if (currentStep === 3) {
+        res.innerHTML = "<h3>Karkovia wins! 😏🔥</h3><img src='hot-hug.gif' style='max-width:200px;'>";
+    }
+
+    // إظهار زر NEXT وتغيير لون الخلفية
+    document.getElementById('nextBtn').style.display = 'block';
+    bg.style.backgroundColor = '#FFB6C1';
+}
+
+function nextQuestion() {
+    currentStep++;
+    document.getElementById('nextBtn').style.display = 'none';
+    res.innerHTML = "";
+    bg.style.backgroundColor = 'white';
+    ques.style.display = 'block';
     document.getElementById('static-gif').style.display = 'block';
-
-    // إعادة ضبط حاوية الأزرار (الفصل بالقوة)
-    const mainArea = document.getElementById('main-area');
-    mainArea.style.display = 'flex'; // استخدام flex للفصل التلقائي
-    mainArea.style.justifyContent = 'center';
-
-    // إعادة الأزرار لوضعها الطبيعي داخل الـ flex
-    const yBtn = document.getElementById('yesBtn');
-    const nBtn = document.getElementById('noBtn');
     
-    yBtn.style.display = 'inline-block';
-    yBtn.style.position = 'static'; // إلغاء الـ absolute مؤقتاً لترتيبهم
-    yBtn.style.transform = 'none';
+    const mainArea = document.getElementById('main-area');
+    mainArea.style.display = 'flex';
 
-    nBtn.style.display = 'inline-block';
-    nBtn.style.position = 'static';
-    nBtn.style.transform = 'none';
+    if (currentStep === 2) {
+        ques.innerHTML = "Who’s ur owner ?";
+        document.getElementById('main-img').src = "owner-gif.gif"; 
+        mainArea.innerHTML = `
+            <button class="button" onclick="handleYesAction()">momo</button>
+            <button class="button" onclick="handleYesAction()">muhannad</button>
+            <button class="button" onclick="handleYesAction()">karkovia</button>
+        `;
+    } 
+    else if (currentStep === 3) {
+        rosanClicks = 0;
+        ques.innerHTML = "Who has the better hugs? be honest... 😏";
+        document.getElementById('main-img').src = "hug-challenge.gif"; 
+        mainArea.innerHTML = `
+            <button id="karkBtn" class="button" onclick="handleYesAction()">karkovia</button>
+            <button id="rosanBtn" class="button" onclick="moveRosan()">rosanlake</button>
+        `;
+    } else {
+        alert("Level 1 Completed! 🏆");
+        backToMenu();
+    }
+}
+
+function moveRosan() {
+    const rBtn = document.getElementById('rosanBtn');
+    rosanClicks++;
+    rBtn.style.position = "relative"; 
+
+    if (rosanClicks === 1) {
+        rBtn.style.transition = "all 1s ease";
+        rBtn.style.left = "100px";
+    } else if (rosanClicks === 2) {
+        rBtn.style.left = "250px";
+    } else if (rosanClicks === 3) {
+        rBtn.style.transition = "all 0.2s ease";
+        rBtn.style.left = "-300px"; 
+        setTimeout(() => { rBtn.style.left = "0px"; }, 300);
+    } else {
+        moveElement(rBtn);
+    }
+}
+
+function moveElement(el) {
+    const maxX = window.innerWidth - el.offsetWidth - 100;
+    const maxY = window.innerHeight - el.offsetHeight - 100;
+    el.style.position = 'fixed';
+    el.style.left = Math.max(50, Math.floor(Math.random() * maxX)) + 'px';
+    el.style.top = Math.max(50, Math.floor(Math.random() * maxY)) + 'px';
+}
+
+function backToMenu() {
+    currentStep = 1;
+    mainContent.style.display = 'none';
+    menuScreen.style.display = 'block';
+    bg.style.backgroundColor = 'white';
+    res.innerHTML = "";
+    document.getElementById('nextBtn').style.display = 'none';
+    ques.style.display = 'block';
+    ques.innerHTML = "miss me ?";
+    document.getElementById('main-img').src = "ang.gif.gif";
+    
+    const mainArea = document.getElementById('main-area');
+    mainArea.innerHTML = `
+        <button id="yesBtn" class="button" onclick="handleYesAction()">YES</button>
+        <button id="noBtn" class="button" onmouseover="moveElement(this)">NO</button>
+    `;
 }
 
         // وظيفة تحريك زر الـ NO
@@ -168,21 +258,7 @@ function backToMenu() {
     noBtn.style.top = y + 'px';
             
 bg.style.backgroundColor = (bg.style.backgroundColor === 'white' || bg.style.backgroundColor === '') ? '#FFC0CB' : 'white';
-        }
-        // تفعيل التحريك عند اللمس أو مرور الماوس
-        noBtn.addEventListener('mouseover', moveNo);
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNo(); });
-        noBtn.addEventListener('click', moveNo);
-
-        // وظيفة الضغط على YES
-        yesBtn.addEventListener('click', () => {
-            ques.innerHTML = "YAY! Get Closer to me! 💋";
-            res.innerHTML = '<div class="pulse-text">seba! <3</div><img src="myhug.gif.gif">';
-            document.getElementById('static-gif').style.display = 'none';
-            noBtn.style.display = 'none';
-            yesBtn.style.display = 'none';
-            bg.style.backgroundColor = '#FFB6C1';
-        });
+        
     </script>
 </body>
 </html>
