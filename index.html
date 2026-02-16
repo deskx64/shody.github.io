@@ -130,17 +130,18 @@ function loadLevel(lvl) {
     // 2. تصفير لون الخلفية
     document.getElementById('bg').style.backgroundColor = 'white';
 
-    // 3. مسح محتوى الـ res (عشان يشيل الاسم والقيف حق الفوز)
+    // 3. مسح أي شيء انضاف في منطقة النتيجة
     document.getElementById('res').innerHTML = ""; 
 
-    // 4. إرجاع السؤال لنصه الأصلي
+    // 4. إرجاع السؤال الأصلي
     document.getElementById('ques').innerHTML = "miss me ?";
 
-    // 5. إظهار القيف الأصلي (الأسطر 56-58 في كودك)
+    // 5. إظهار القيف الأصلي (بإستخدام الـ ID)
     document.getElementById('static-gif').style.display = 'block';
 
-    // 6. إظهار أزرار YES و NO (تعديل السطر اللي خرب عليك)
-    document.querySelector('.btn-container').style.display = 'flex';
+    // 6. إظهار حاوية الأزرار (بإستخدام الـ ID مباشرة)
+    // جربنا flex وما ضبط؟ نجرب block عشان نضمن الظهور
+    document.getElementById('main-area').style.display = 'block';
 }
         // وظيفة تحريك زر الـ NO
         function moveNo() {
