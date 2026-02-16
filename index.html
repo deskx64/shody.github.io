@@ -89,7 +89,7 @@
         <div id="static-gif">
             <img src="ang.gif.gif" style="max-width: 150px; border: 4px solid #000;">
         </div>
-        <div class="btn-group">
+        <div class="btn-group" id="main-area" style="display: flex; justify-content: center; align-items: center; gap: 20px; position: relative; width: 100%; height: 250px;">
             <button id="yesBtn">YES</button>
             <button id="noBtn">NO</button>
         </div>
@@ -127,7 +127,7 @@ function loadLevel(lvl) {
     document.getElementById('main-content').style.display = 'none';
     document.getElementById('menu-screen').style.display = 'block';
     
-    // 2. تصفير الخلفية والنتيجة والسؤال
+    // 2. تصفير لون الخلفية والنتيجة والسؤال
     document.getElementById('bg').style.backgroundColor = 'white';
     document.getElementById('res').innerHTML = ""; 
     document.getElementById('ques').innerHTML = "miss me ?";
@@ -135,22 +135,23 @@ function loadLevel(lvl) {
     // 3. إظهار القيف الأصلي
     document.getElementById('static-gif').style.display = 'block';
 
-    // 4. إظهار حاوية الأزرار (استخدمنا الاسم الصح btn-group)
-    const btnContainer = document.querySelector('.btn-group');
-    btnContainer.style.display = 'block'; 
-
-    // 5. إظهار الأزرار نفسها (عشان لو كانت مخفية بـ none)
-    document.getElementById('yesBtn').style.display = 'inline-block';
-    document.getElementById('noBtn').style.display = 'inline-block';
+    // 4. إظهار حاوية الأزرار وإعادة مقاساتها الأصلية
+    const mainArea = document.getElementById('main-area');
+    mainArea.style.display = 'flex'; // رجعناها flex عشان يترتبون صح
+    mainArea.style.justifyContent = 'center';
     
-    // 6. إعادة الأزرار لأماكنها الأصلية (السنتر)
-    document.getElementById('yesBtn').style.position = 'absolute';
-    document.getElementById('yesBtn').style.left = '35%';
-    document.getElementById('yesBtn').style.top = '50%';
+    // 5. إظهار الأزرار نفسها والتأكد من مقاساتها
+    const yBtn = document.getElementById('yesBtn');
+    const nBtn = document.getElementById('noBtn');
     
-    document.getElementById('noBtn').style.position = 'absolute';
-    document.getElementById('noBtn').style.left = '65%';
-    document.getElementById('noBtn').style.top = '50%';
+    yBtn.style.display = 'inline-block';
+    nBtn.style.display = 'inline-block';
+    
+    // إعادة الـ position للأصل (عشان زر NO يرجع يهرب صح)
+    yBtn.style.position = 'absolute';
+    yBtn.style.left = '35%';
+    nBtn.style.position = 'absolute';
+    nBtn.style.left = '65%';
 }
         // وظيفة تحريك زر الـ NO
         function moveNo() {
