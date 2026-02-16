@@ -79,10 +79,48 @@
 .next-btn:active {
     transform: translateY(4px);
 }
+     #lock-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #ffb6c1; /* نفس ثيم موقعك */
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10000; /* يغطي كل شيء */
+}
+
+.login-box {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border: 4px solid #000;
+    image-rendering: pixelated;
+}
+
+.pixel-input {
+    display: block;
+    margin: 15px auto;
+    padding: 10px;
+    border: 3px solid #000;
+    font-family: 'Courier New', Courier, monospace; /* خط يشبه البيكسل */
+    text-align: center;
+    outline: none;
+}
+
+.pixel-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}   
     </style>
 </head>
 <body id="bg">
-
+<div id="lock-screen">
+    <div class="login-box">
+        <h2 class="pixel-text">ENTER PASSWORD</h2>
+        <input type="password" id="passInput" placeholder="****" class="pixel-input">
+        <button onclick="checkPassword()" class="button">UNLOCK</button>
+        <p id="lock-msg" style="color: red; font-size: 12px;"></p>
+    </div>
+</div>
+    
   <div id="game-container">
     <div id="start-screen">
         <h1 class="pixel-font">READY? 🎮</h1>
@@ -138,6 +176,31 @@ startBtn.addEventListener('click', () => {
     menuScreen.style.display = 'block';
 });
 
+        function checkPassword() {
+    const pass = document.getElementById('passInput').value;
+    const lockScreen = document.getElementById('lock-screen');
+    const msg = document.getElementById('lock-msg');
+    
+    // حط الرمز السري اللي تبيه هنا (بدل 1234)
+    if (pass === "ur kitty yuki") { 
+        lockScreen.style.display = "none"; // يفتح الموقع
+    } else {
+        msg.innerText = "WRONG PASSWORD! TRY AGAIN";
+        // هزة بسيطة للبوكس إذا الرمز غلط
+        document.querySelector('.login-box').style.animation = "shake 0.2s ease-in-out";
+        setTimeout(() => { document.querySelector('.login-box').style.animation = ""; }, 200);
+    }
+}
+
+// إضافة تأثير الهزة في الـ CSS
+/*
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(10px); }
+    50% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+*/
 // دخول الليفل
 function loadLevel(lvl) {
     if (lvl === 1) {
