@@ -123,22 +123,24 @@ function loadLevel(lvl) {
     }
 }
        function backToMenu() {
-    // 1. إخفاء منطقة اللعب وإظهار المنيو
+    // 1. التنقل بين الشاشات
     document.getElementById('main-content').style.display = 'none';
     document.getElementById('menu-screen').style.display = 'block';
     
-    // 2. إرجاع لون الخلفية للأبيض
+    // 2. تصفير لون الخلفية
     document.getElementById('bg').style.backgroundColor = 'white';
 
-    // 3. إعادة السؤال لنصه الأصلي (عشان لو كان تغير بعد الـ YES)
-    document.getElementById('ques').innerHTML = "miss me ?";
+    // 3. مسح محتوى الـ res بالكامل (هذا اللي بيشيل القيف الجديد والاسم)
+    const resArea = document.getElementById('res');
+    resArea.innerHTML = ""; 
 
-    // 4. إظهار حاوية الأزرار والصورة الأصلية (في حال تم إخفاؤهم)
+    // 4. إرجاع السؤال الأصلي
+    document.getElementById('ques').innerHTML = "Can I taste your soft lips?";
+
+    // 5. إظهار العناصر الأصلية اللي اختفت
+    // أعد إظهار القيف الأصلي وأزرار YES/NO
     document.getElementById('static-gif').style.display = 'block';
-    document.getElementById('main-area').style.display = 'flex'; // أو block حسب تنسيقك
-    
-    // 5. تفريغ منطقة النتيجة (res) عشان تختفي صورة الـ YES
-    document.getElementById('res').innerHTML = "";
+    document.getElementById('main-area').style.display = 'flex';
 }
         // وظيفة تحريك زر الـ NO
         function moveNo() {
