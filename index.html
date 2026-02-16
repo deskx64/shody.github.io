@@ -194,55 +194,51 @@ function nextQuestion() {
     }
 }
 
-let glitchSpeed = 120; 
+let glitchSpeed = 120;
 
 function moveRosan() {
     const rBtn = document.getElementById('rosanBtn');
     const kBtn = document.getElementById('karkBtn');
     rosanClicks++;
     
-    // إعدادات الطبقات والمسار
+    // تأمين موقع كركوفيا
     kBtn.style.position = "relative";
     kBtn.style.zIndex = "10"; 
     
-    rBtn.style.position = "absolute"; 
-    rBtn.style.zIndex = "1"; // خلف كركوفيا
-    rBtn.style.transition = "all 0.1s ease";
+    // تأمين موقع روزان
+    rBtn.style.position = "relative"; // نخليه relative عشان يثبت في مكانه الأصلي
+    rBtn.style.zIndex = "1"; 
 
     if (rosanClicks === 1) {
+        rBtn.style.transition = "all 0.3s ease";
         rBtn.style.transform = "translateX(60px)";
     } else if (rosanClicks === 2) {
         rBtn.style.transform = "translateX(-60px)";
     } else {
-        // --- مرحلة التفحيط على المسار الأفقي ---
-        
-        // تزيد السرعة مع كل ضغطة
+        // --- مرحلة القلتش المطور (بدون طيران) ---
         glitchSpeed = Math.max(15, glitchSpeed - 20); 
+        rBtn.style.transition = "none"; // سرعة استجابة لحظية
         
         if (window.rosanInterval) clearInterval(window.rosanInterval);
         
         window.rosanInterval = setInterval(() => {
             if (currentStep !== 3) {
                 clearInterval(window.rosanInterval);
+                rBtn.style.transform = "none";
                 return;
             }
-            
-            // حساب مكان كركوفيا (المركز)
-            const kRect = kBtn.getBoundingClientRect();
-            const containerRect = rBtn.parentElement.getBoundingClientRect();
-            const baseLeft = kRect.left - containerRect.left;
-            const baseTop = kRect.top - containerRect.top; // يثبت على نفس الارتفاع
 
-            // الحركة يمين ويسار فقط (بحدود 120 بكسل)
-            // يروح خلف كركوفيا (0) ثم يمين (120) ثم يسار (-120)
-            const sideMovement = (Math.random() - 0.5) * 240; 
+            // الحركة يمين ويسار فقط نسبةً لمكانه الأصلي خلف كركوفيا
+            // القيمة 0 تعني هو بالضبط ورا كركوفيا
+            const glitchX = (Math.random() - 0.5) * 250; // يتحرك يمين ويسار كركوفيا بمدى واسع
+            const glitchY = (Math.random() - 0.5) * 10;  // هزة راسية خفيفة جداً لا تذكر
 
-            rBtn.style.left = (baseLeft + sideMovement) + "px";
-            rBtn.style.top = baseTop + "px"; // ثابت على نفس مسار كركوفيا
-            rBtn.style.margin = "0";
+            // نستخدم transform عشان نحافظ على مكانه في "المسار" وما يطير فوق
+            rBtn.style.transform = `translate(${glitchX}px, ${glitchY}px)`;
             
-            // وميض بسيط للون لإظهار القلتش
-            rBtn.style.filter = Math.random() > 0.5 ? "invert(1)" : "none";
+            // تأثير القلتش البصري
+            rBtn.style.opacity = Math.random() > 0.1 ? "0.8" : "0.3";
+            rBtn.style.filter = Math.random() > 0.8 ? "invert(1)" : "none";
             
         }, glitchSpeed);
     }
@@ -256,18 +252,27 @@ function resetGameStatus() {
     ques.style.display = 'block';
     ques.innerHTML = "miss me ?";
     document.getElementById('static-gif').style.display = 'block';
-    document.getElementById('main-img').src = "ang.gif.gif";
     const mainArea = document.getElementById('main-area');
     mainArea.style.display = 'flex';
+    // نستخدم moveElement هنا لزر الـ NO
     mainArea.innerHTML = `
         <button id="yesBtn" class="button" onclick="handleYesAction()">YES</button>
-        <button id="noBtn" class="button" onmouseover="moveElement(this)">NO</button>`;
+        <button id="noBtn" class="button" onmouseover="moveElement(this)">NO</button>
+    `;
 }
 
 function backToMenu() {
     mainContent.style.display = 'none';
     menuScreen.style.display = 'block';
     resetGameStatus(); // تأكد أن النتائج اختفت عند العودة
+}
+        function moveElement(el) {
+    el.style.position = 'fixed'; // مهم جداً لزر الـ NO
+    const maxX = window.innerWidth - el.offsetWidth - 100;
+    const maxY = window.innerHeight - el.offsetHeight - 100;
+    el.style.left = Math.max(50, Math.floor(Math.random() * maxX)) + 'px';
+    el.style.top = Math.max(50, Math.floor(Math.random() * maxY)) + 'px';
+    el.style.zIndex = "9999"; // عشان ما يختفي ورا شي
 }
 </script>
 </body>
