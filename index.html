@@ -157,9 +157,9 @@ function handleYesAction() {
     if (currentStep === 1) {
         res.innerHTML = "<h3>okay call me now! 💋</h3><img src='hehe.gif' style='max-width:200px;'>";
     } else if (currentStep === 2) {
-        res.innerHTML = "<h3>I knew it! ❤️</h3><img src='bebe.gif' style='max-width:200px;'>";
+        res.innerHTML = "<h3>I knew it! </h3><img src='bebe.gif' style='max-width:200px;'>";
     } else if (currentStep === 3) {
-        res.innerHTML = "<h3>Karkovia wins! 😏🔥</h3><img src='lick.gif' style='max-width:200px;'>";
+        res.innerHTML = "<h3>Karkovia wins! 🔥</h3><img src='lick.gif' style='max-width:200px;'>";
     }
 
     nextBtn.style.display = 'block'; // إظهار الزر
@@ -188,7 +188,7 @@ function nextQuestion() {
         `;
     } else if (currentStep === 3) {
         rosanClicks = 0;
-        ques.innerHTML = "Who has the better hugs? be honest... 😏";
+        ques.innerHTML = "Who has the better hugs? be honest... ";
         // --- السطر اللي تضيفه هنا ---
         document.getElementById('main-img').src = "3.gif";
 
@@ -197,7 +197,7 @@ function nextQuestion() {
             <button id="rosanBtn" class="button" onclick="moveRosan()">rosanlake</button>
         `;
     } else {
-        alert("Level 1 Completed! 🏆");
+        alert("Level 1 Completed! ");
         backToMenu();
     }
 }
