@@ -31,8 +31,8 @@
             box-shadow: 4px 4px 0px #000;
             outline: none;
         }
-        #yesBtn { background: #ff4d4d; color: white; position: absolute; left: 35%; top: 50%; transform: translate(-50%, -50%); z-index: 100; }
-        #noBtn { background: white; color: #000; position: absolute; left: 65%; top: 50%; transform: translate(-50%, -50%); z-index: 100; transition: 0.1s; }
+       #yesBtn { background: #ff4d4d; color: white; position: relative; margin: 10px; z-index: 100; }
+#noBtn { background: white; color: #000; position: relative; margin: 10px; z-index: 100; transition: 0.1s; }
         #res img { max-width: 280px; margin-top: 20px; border: 5px solid #ff4d4d; box-shadow: 10px 10px 0px #000; }
         .pulse-text { 
             font-size: 32px; 
@@ -47,57 +47,313 @@
             50% { transform: scale(1.2); } 
             100% { transform: scale(1); } 
         }
+
+
+        /* أضفه هنا قبل وسم إغلاق الاستايل */
+.menu-item {
+    position: static !important; 
+    display: block !important;
+    margin: 15px auto !important;
+    transform: none !important;
+}
+        .back-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    padding: 5px 10px !important;
+    font-size: 10px !important;
+    background-color: #666 !important;
+    box-shadow: 2px 2px 0px #000 !important;
+    z-index: 2000;
+}
+        .next-btn {
+    background-color: #4CAF50; /* لون أخضر بكسل */
+    color: white;
+    padding: 10px 20px;
+    border: 4px solid #000;
+    font-family: 'pixel-font', sans-serif;
+    cursor: pointer;
+    margin-top: 20px;
+    display: none; /* مخفي في البداية */
+}
+.next-btn:active {
+    transform: translateY(4px);
+}
+     #lock-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #ffb6c1; /* نفس ثيم موقعك */
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10000; /* يغطي كل شيء */
+}
+
+.login-box {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border: 4px solid #000;
+    image-rendering: pixelated;
+}
+
+.pixel-input {
+    display: block;
+    margin: 15px auto;
+    padding: 10px;
+    border: 3px solid #000;
+    font-family: 'Courier New', Courier, monospace; /* خط يشبه البيكسل */
+    text-align: center;
+    outline: none;
+}
+
+.pixel-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+        @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(10px); }
+    50% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+        .watermark {
+    position: fixed;
+    bottom: 15px; /* يرفعه شوي عن أسفل الشاشة */
+    right: 20px;  /* يبعده عن حافة اليمين */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.4); /* لون رمادي شفاف عشان يكون هادي */
+    z-index: 9999;
+    pointer-events: none; /* عشان ما يضايقك لو ضغطت عليه بالخطأ */
+}
     </style>
 </head>
 <body id="bg">
-
-   <h1 id="ques">Can I taste your soft lips?</h1>
-
-<div id="static-gif">
-    <img src="ang.gif.gif" style="max-width: 250px; border: 4px solid #ff4d4d; border-radius: 10px;">
+<div id="lock-screen">
+    <div class="login-box">
+        <h2 class="pixel-text">ENTER PASSWORD</h2>
+        <input type="password" id="passInput" placeholder="****" class="pixel-input">
+        <button onclick="checkPassword()" class="button">UNLOCK</button>
+        <p id="lock-msg" style="color: red; font-size: 12px;"></p>
+    </div>
 </div>
+    
+  <div id="game-container">
+    <div id="start-screen">
+        <h1 class="pixel-font">READY? 🎮</h1>
+        <button id="startBtn" class="pixel-btn">START</button>
+    </div>
 
-<div class="btn-container" id="main-area">
-    <button id="yesBtn">YES</button>
-    <button id="noBtn">NO</button>
+    <div id="menu-screen" style="display: none;">
+        <h2 class="pixel-font">CHOOSE LEVEL</h2>
+        <button class="pixel-btn menu-item" onclick="loadLevel(1)">Level 1</button>
+        <button class="pixel-btn menu-item" onclick="loadLevel(2)">Level 2 (Empty)</button>
+        <button class="pixel-btn menu-item" onclick="loadLevel(3)">Level 3 (Empty)</button>
+    </div>
+
+<div id="main-content" style="display: none;">
+    <button class="button back-btn" onclick="backToMenu()">[ BACK ]</button>
+    
+    <div id="game-container">
+        <h1 id="ques">miss me ?</h1>
+        
+        <div id="static-gif">
+            <img src="shy.gif.gif" id="main-img" style="max-width: 150px; border: 4px solid #000;">
+        </div>
+
+        <div class="btn-group" id="main-area" style="display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 100px;">
+            <button id="yesBtn" class="button" onclick="handleYesAction()">YES</button>
+            <button id="noBtn" class="button" onmouseover="moveElement(this)">NO</button>
+        </div>
+
+        <div id="res"></div>
+        
+        <button id="nextBtn" class="next-btn" onclick="nextQuestion()" style="display: none;">[ NEXT ]</button>
+    </div>
 </div>
-
-    <div id="res"></div>
-
+      <div class="watermark">@karkovia</div>
     <script>
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const bg = document.getElementById('bg');
-        const ques = document.getElementById('ques');
-        const res = document.getElementById('res');
+// تعريف العناصر
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const bg = document.getElementById('bg');
+const ques = document.getElementById('ques');
+const res = document.getElementById('res');
+const startBtn = document.getElementById('startBtn');
+const startScreen = document.getElementById('start-screen');
+const menuScreen = document.getElementById('menu-screen');
+const mainContent = document.getElementById('main-content');
+const nextBtn = document.getElementById('nextBtn'); // تعريف زر النيكست
 
-        // وظيفة تحريك زر الـ NO
-        function moveNo() {
-    const maxX = window.innerWidth - noBtn.offsetWidth - 50;
-    const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+let currentStep = 1;
+let rosanClicks = 0;
 
-    const x = Math.floor(Math.random() * Math.max(0, maxX)) + 25;
-    const y = Math.floor(Math.random() * Math.max(0, maxY)) + 25;
+// تشغيل شاشة البداية
+startBtn.addEventListener('click', () => {
+    startScreen.style.display = 'none';
+    menuScreen.style.display = 'block';
+});
 
-    noBtn.style.left = x + 'px';
-    noBtn.style.top = y + 'px';
+        function checkPassword() {
+    const pass = document.getElementById('passInput').value;
+    const lockScreen = document.getElementById('lock-screen');
+    const msg = document.getElementById('lock-msg');
+    
+    // حط الرمز السري اللي تبيه هنا (بدل 1234)
+    if (pass === "ur kitty yuki") { 
+        lockScreen.style.display = "none"; // يفتح الموقع
+    } else {
+        msg.innerText = "WRONG PASSWORD! who are you!";
+        // هزة بسيطة للبوكس إذا الرمز غلط
+        document.querySelector('.login-box').style.animation = "shake 0.2s ease-in-out";
+        setTimeout(() => { document.querySelector('.login-box').style.animation = ""; }, 200);
+    }
+}
+
+
+// دخول الليفل
+function loadLevel(lvl) {
+    if (lvl === 1) {
+        menuScreen.style.display = 'none';
+        mainContent.style.display = 'block';
+        resetGameStatus(); // تنظيف الشاشة وبدء السؤال 1
+    } else {
+        alert("Level " + lvl + " still empty! 👾");
+    }
+}
+
+function handleYesAction() {
+    ques.style.display = 'none';
+    document.getElementById('main-area').style.display = 'none';
+    document.getElementById('static-gif').style.display = 'none';
+
+    if (currentStep === 1) {
+        res.innerHTML = "<h3>okay call me now! 💋</h3><img src='hehe.gif' style='max-width:200px;'>";
+    } else if (currentStep === 2) {
+        res.innerHTML = "<h3>I knew it! </h3><img src='bebe.gif' style='max-width:200px;'>";
+    } else if (currentStep === 3) {
+        res.innerHTML = "<h3>Karkovia wins! 🔥</h3><img src='lick.gif' style='max-width:200px;'>";
+    }
+
+    nextBtn.style.display = 'block'; // إظهار الزر
+    bg.style.backgroundColor = '#FFB6C1';
+}
+
+function nextQuestion() {
+    currentStep++;
+    nextBtn.style.display = 'none';
+    res.innerHTML = "";
+    bg.style.backgroundColor = 'white';
+    ques.style.display = 'block';
+    document.getElementById('static-gif').style.display = 'block';
+    const mainArea = document.getElementById('main-area');
+    mainArea.style.display = 'flex';
+
+    if (currentStep === 2) {
+        ques.innerHTML = "Who's ur owner ?";
+        // --- السطر اللي تضيفه هنا ---
+        document.getElementById('main-img').src = "2.gif";
+        
+        mainArea.innerHTML = `
+            <button class="button" onclick="handleYesAction()">momo</button>
+            <button class="button" onclick="handleYesAction()">muhannad</button>
+            <button class="button" onclick="handleYesAction()">karkovia</button>
+        `;
+    } else if (currentStep === 3) {
+        rosanClicks = 0;
+        ques.innerHTML = "Who has the better hugs? be honest... ";
+        // --- السطر اللي تضيفه هنا ---
+        document.getElementById('main-img').src = "3.gif";
+
+        mainArea.innerHTML = `
+            <button id="karkBtn" class="button" onclick="handleYesAction()">karkovia</button>
+            <button id="rosanBtn" class="button" onclick="moveRosan()">rosanlake</button>
+        `;
+    } else {
+        alert("Level 1 Completed! ");
+        backToMenu();
+    }
+}
+
+let glitchSpeed = 120;
+
+function moveRosan() {
+    const rBtn = document.getElementById('rosanBtn');
+    const kBtn = document.getElementById('karkBtn');
+    rosanClicks++;
+    
+    // تأمين موقع كركوفيا
+    kBtn.style.position = "relative";
+    kBtn.style.zIndex = "10"; 
+    
+    // تأمين موقع روزان
+    rBtn.style.position = "relative"; // نخليه relative عشان يثبت في مكانه الأصلي
+    rBtn.style.zIndex = "1"; 
+
+    if (rosanClicks === 1) {
+        rBtn.style.transition = "all 0.3s ease";
+        rBtn.style.transform = "translateX(60px)";
+    } else if (rosanClicks === 2) {
+        rBtn.style.transform = "translateX(-60px)";
+    } else {
+        // --- مرحلة القلتش المطور (بدون طيران) ---
+        glitchSpeed = Math.max(15, glitchSpeed - 20); 
+        rBtn.style.transition = "none"; // سرعة استجابة لحظية
+        
+        if (window.rosanInterval) clearInterval(window.rosanInterval);
+        
+        window.rosanInterval = setInterval(() => {
+            if (currentStep !== 3) {
+                clearInterval(window.rosanInterval);
+                rBtn.style.transform = "none";
+                return;
+            }
+
+            // الحركة يمين ويسار فقط نسبةً لمكانه الأصلي خلف كركوفيا
+            // القيمة 0 تعني هو بالضبط ورا كركوفيا
+            const glitchX = (Math.random() - 0.5) * 250; // يتحرك يمين ويسار كركوفيا بمدى واسع
+            const glitchY = (Math.random() - 0.5) * 10;  // هزة راسية خفيفة جداً لا تذكر
+
+            // نستخدم transform عشان نحافظ على مكانه في "المسار" وما يطير فوق
+            rBtn.style.transform = `translate(${glitchX}px, ${glitchY}px)`;
             
-bg.style.backgroundColor = (bg.style.backgroundColor === 'white' || bg.style.backgroundColor === '') ? '#FFC0CB' : 'white';
-        }
-        // تفعيل التحريك عند اللمس أو مرور الماوس
-        noBtn.addEventListener('mouseover', moveNo);
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNo(); });
-        noBtn.addEventListener('click', moveNo);
+            // تأثير القلتش البصري
+            rBtn.style.opacity = Math.random() > 0.1 ? "0.8" : "0.3";
+            rBtn.style.filter = Math.random() > 0.8 ? "invert(1)" : "none";
+            
+        }, glitchSpeed);
+    }
+}
+// هذه الدالة أهم شيء: تنظف كل شيء وتجيب السؤال الأول
+function resetGameStatus() {
+    currentStep = 1;
+    res.innerHTML = "";
+    nextBtn.style.display = 'none';
+    bg.style.backgroundColor = 'white';
+    ques.style.display = 'block';
+    ques.innerHTML = "miss me ?";
+    document.getElementById('static-gif').style.display = 'block';
+    const mainArea = document.getElementById('main-area');
+    mainArea.style.display = 'flex';
+    // نستخدم moveElement هنا لزر الـ NO
+    mainArea.innerHTML = `
+        <button id="yesBtn" class="button" onclick="handleYesAction()">YES</button>
+        <button id="noBtn" class="button" onmouseover="moveElement(this)">NO</button>
+    `;
+}
 
-        // وظيفة الضغط على YES
-        yesBtn.addEventListener('click', () => {
-            ques.innerHTML = "YAY! Get Closer to me! 💋";
-            res.innerHTML = '<div class="pulse-text">seba! <3</div><img src="myhug.gif.gif">';
-            document.getElementById('static-gif').style.display = 'none';
-            noBtn.style.display = 'none';
-            yesBtn.style.display = 'none';
-            bg.style.backgroundColor = '#FFB6C1';
-        });
-    </script>
+function backToMenu() {
+    mainContent.style.display = 'none';
+    menuScreen.style.display = 'block';
+    resetGameStatus(); // تأكد أن النتائج اختفت عند العودة
+}
+        function moveElement(el) {
+    el.style.position = 'fixed'; // مهم جداً لزر الـ NO
+    const maxX = window.innerWidth - el.offsetWidth - 100;
+    const maxY = window.innerHeight - el.offsetHeight - 100;
+    el.style.left = Math.max(50, Math.floor(Math.random() * maxX)) + 'px';
+    el.style.top = Math.max(50, Math.floor(Math.random() * maxY)) + 'px';
+    el.style.zIndex = "9999"; // عشان ما يختفي ورا شي
+}
+</script>
 </body>
 </html>
