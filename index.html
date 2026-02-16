@@ -194,57 +194,59 @@ function nextQuestion() {
     }
 }
 
-let glitchSpeed = 100; // السرعة الابتدائية (كل ما قل الرقم زادت السرعة)
+let glitchSpeed = 120; 
 
 function moveRosan() {
     const rBtn = document.getElementById('rosanBtn');
     const kBtn = document.getElementById('karkBtn');
     rosanClicks++;
     
-    // إعدادات المسار: يرجف حول مكانه الأصلي بدون ما يغطي الزر الثاني
-    rBtn.style.position = "relative"; 
-    rBtn.style.zIndex = "1"; // يخليه تحت زر كركوفيا أو خلفه بشوي
-    kBtn.style.zIndex = "10"; // يضمن إن زر كركوفيا دائماً فوق وقابل للضغط
+    // إعدادات الطبقات والمسار
+    kBtn.style.position = "relative";
+    kBtn.style.zIndex = "10"; 
+    
+    rBtn.style.position = "absolute"; 
+    rBtn.style.zIndex = "1"; // خلف كركوفيا
+    rBtn.style.transition = "all 0.1s ease";
 
     if (rosanClicks === 1) {
-        // زحفة بسيطة لليسار
-        rBtn.style.transition = "all 0.4s ease";
-        rBtn.style.transform = "translateX(-40px)";
+        rBtn.style.transform = "translateX(60px)";
     } else if (rosanClicks === 2) {
-        // زحفة بسيطة لليمن
-        rBtn.style.transform = "translateX(40px)";
+        rBtn.style.transform = "translateX(-60px)";
     } else {
-        // يبدأ القلتش التدريجي
-        glitchSpeed = Math.max(20, glitchSpeed - 20); // تزيد السرعة مع كل ضغطة إضافية
+        // --- مرحلة التفحيط على المسار الأفقي ---
         
-        rBtn.style.transition = "none"; // إلغاء الـ transition عشان الرجفة تكون حادة
+        // تزيد السرعة مع كل ضغطة
+        glitchSpeed = Math.max(15, glitchSpeed - 20); 
         
         if (window.rosanInterval) clearInterval(window.rosanInterval);
         
         window.rosanInterval = setInterval(() => {
             if (currentStep !== 3) {
                 clearInterval(window.rosanInterval);
-                rBtn.style.transform = "none";
                 return;
             }
             
-            // حركة عشوائية بسيطة (رجفة) في المسار الأفقي فقط عشان ما يغطي الاسم
-            const randomX = (Math.random() - 0.5) * 60; // يتحرك يمين ويسار بمدى 60 بكسل
-            const randomY = (Math.random() - 0.5) * 10; // حركة راسية بسيطة جداً لا تذكر
+            // حساب مكان كركوفيا (المركز)
+            const kRect = kBtn.getBoundingClientRect();
+            const containerRect = rBtn.parentElement.getBoundingClientRect();
+            const baseLeft = kRect.left - containerRect.left;
+            const baseTop = kRect.top - containerRect.top; // يثبت على نفس الارتفاع
+
+            // الحركة يمين ويسار فقط (بحدود 120 بكسل)
+            // يروح خلف كركوفيا (0) ثم يمين (120) ثم يسار (-120)
+            const sideMovement = (Math.random() - 0.5) * 240; 
+
+            rBtn.style.left = (baseLeft + sideMovement) + "px";
+            rBtn.style.top = baseTop + "px"; // ثابت على نفس مسار كركوفيا
+            rBtn.style.margin = "0";
             
-            rBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            // وميض بسيط للون لإظهار القلتش
+            rBtn.style.filter = Math.random() > 0.5 ? "invert(1)" : "none";
             
         }, glitchSpeed);
     }
 }
-function moveElement(el) {
-    const maxX = window.innerWidth - el.offsetWidth - 100;
-    const maxY = window.innerHeight - el.offsetHeight - 100;
-    el.style.position = 'fixed';
-    el.style.left = Math.max(50, Math.floor(Math.random() * maxX)) + 'px';
-    el.style.top = Math.max(50, Math.floor(Math.random() * maxY)) + 'px';
-}
-
 // هذه الدالة أهم شيء: تنظف كل شيء وتجيب السؤال الأول
 function resetGameStatus() {
     currentStep = 1;
