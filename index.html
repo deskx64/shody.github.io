@@ -130,17 +130,17 @@ function loadLevel(lvl) {
     // 2. تصفير لون الخلفية
     document.getElementById('bg').style.backgroundColor = 'white';
 
-    // 3. مسح محتوى الـ res بالكامل (هذا اللي بيشيل القيف الجديد والاسم)
-    const resArea = document.getElementById('res');
-    resArea.innerHTML = ""; 
+    // 3. مسح محتوى الـ res (عشان يشيل الاسم والقيف حق الفوز)
+    document.getElementById('res').innerHTML = ""; 
 
-    // 4. إرجاع السؤال الأصلي
+    // 4. إرجاع السؤال لنصه الأصلي
     document.getElementById('ques').innerHTML = "miss me ?";
 
-    // 5. إظهار العناصر الأصلية اللي اختفت
-    // أعد إظهار القيف الأصلي وأزرار YES/NO
+    // 5. إظهار القيف الأصلي (الأسطر 56-58 في كودك)
     document.getElementById('static-gif').style.display = 'block';
-    document.getElementById('main-area').style.display = 'flex';
+
+    // 6. إظهار أزرار YES و NO (تعديل السطر اللي خرب عليك)
+    document.querySelector('.btn-container').style.display = 'flex';
 }
         // وظيفة تحريك زر الـ NO
         function moveNo() {
