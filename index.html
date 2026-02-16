@@ -172,6 +172,21 @@
 </div>
       <div class="watermark">@karkovia</div>
     <script>
+        // مصفوفة بأسماء القيفات عشان نحملها مسبقاً
+const imagesToPreload = [
+    "shy.gif.gif",
+    "hehe.gif",
+    "bebe.gif",
+    "2.gif",
+    "3.gif",
+    "lick.gif"
+];
+
+// كود التحميل المسبق
+imagesToPreload.forEach(src => {
+    const img = new Image();
+    img.src = src;
+});
 // تعريف العناصر
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
